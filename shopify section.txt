@@ -1,0 +1,27 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script>
+    $(document).ready(function(e){
+      var product_id = "strap"; 
+setTimeout(function() {   
+            $.ajax({
+              url: '/products/' + product_id + '?section_id=product-template',
+              success: function(data) {
+                let obj = $.parseJSON($(data).find('#ProductJson-product-template').text());
+               $('.gpo-element').find('.gpo-swatches').each(function(){
+                      var pro_var_id = $(this).find("input").attr('gpo-data-variant-id');
+                      var pro_handle = $(this).find("input").attr('gpo-data-product-handle');
+                      var pro_gpo = $(this);
+                      $.each(obj.variants, function(key,value) {
+                          if(pro_var_id == value.id && value.available==false)
+                          {
+                           $(pro_gpo).addClass('globo-out-of-stock globo-sold-out-cross-out');
+                          }
+                        });
+                  });
+              }
+            });
+}, 2000);
+
+});
+
+</script>
